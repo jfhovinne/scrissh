@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a10" title="scrissh">
+  <file path="scrissh" hash="d5d15270f97d7151a77c1c6a98a48d25" package="scrissh">
+    <docblock line="3">
+      <description><![CDATA[scrissh: execute remote commands in batch with SSH2]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="3" name="package" description="scrissh"/>
+    </docblock>
+    <include line="13" type="Require Once" package="Default">
+      <name/>
+    </include>
+    <constant namespace="global" line="10" package="scrissh">
+      <name>SCRISSH_ROOT</name>
+      <full_name>\SCRISSH_ROOT</full_name>
+      <value><![CDATA[getcwd()]]></value>
+      <docblock line="7">
+        <description><![CDATA[Script root directory]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+    </constant>
+  </file>
+  <file path="lib/bootstrap.php" hash="f2c1875486f75cb955b5e1729fd54cf2" package="scrissh">
+    <docblock line="2">
+      <description><![CDATA[Load dependencies and common functions
+Display usage if required parameters are missing
+Parse configuration file(s)]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="scrissh"/>
+    </docblock>
+    <namespace-alias name="Parser">Symfony\Component\Yaml\Parser</namespace-alias>
+    <include line="12" type="Require Once" package="Default">
+      <name>common.php</name>
+    </include>
+    <include line="18" type="Require Once" package="Default">
+      <name/>
+    </include>
+  </file>
+  <file path="lib/SSH2.php" hash="6c9ccaabb1edbe2b3fe79b2e088776ff" package="scrissh">
+    <docblock line="2">
+      <description><![CDATA[SSH2 class]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="scrissh"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="10" package="scrissh">
+      <extends/>
+      <name>SSH2</name>
+      <full_name>\SSH2</full_name>
+      <docblock line="6">
+        <description><![CDATA[A simple interface for PHP SSH2 native implementation]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="scrissh"/>
+      </docblock>
+      <property final="false" static="false" visibility="private" line="17" namespace="global" package="Default">
+        <name>$host</name>
+        <default><![CDATA[]]></default>
+        <docblock line="12">
+          <description><![CDATA[The host to connect to]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="12" name="access" description="private"/>
+          <tag line="12" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="24" namespace="global" package="Default">
+        <name>$port</name>
+        <default><![CDATA[]]></default>
+        <docblock line="19">
+          <description><![CDATA[The port to use]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="19" name="access" description="private"/>
+          <tag line="19" name="var" description="" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="31" namespace="global" package="Default">
+        <name>$prv_key</name>
+        <default><![CDATA[]]></default>
+        <docblock line="26">
+          <description><![CDATA[The path to the private SSH2 key]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="26" name="access" description="private"/>
+          <tag line="26" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="38" namespace="global" package="Default">
+        <name>$pub_key</name>
+        <default><![CDATA[]]></default>
+        <docblock line="33">
+          <description><![CDATA[The path to the public SSH2 key]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="33" name="access" description="private"/>
+          <tag line="33" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="private" line="45" namespace="global" package="Default">
+        <name>$connection</name>
+        <default><![CDATA[]]></default>
+        <docblock line="40">
+          <description><![CDATA[The SSH2 connection object]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="40" name="access" description="private"/>
+          <tag line="40" name="var" description="object" type="\SSH2">
+            <type by_reference="false">\SSH2</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="53" package="scrissh">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="47">
+          <description><![CDATA[Constructor]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="47" name="param" description="" type="string" variable="$host">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="47" name="param" description="" type="int" variable="$port">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="47" name="param" description="" type="int" variable="$timeout">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="53">
+          <name>$host</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$port</name>
+          <default><![CDATA[22]]></default>
+          <type/>
+        </argument>
+        <argument line="53">
+          <name>$timeout</name>
+          <default><![CDATA[10]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="65" package="scrissh">
+        <name>login</name>
+        <full_name>login</full_name>
+        <docblock line="58">
+          <description><![CDATA[Logs in if connection is available, using SSH2 keys]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="58" name="param" description="" type="string" variable="$user">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="58" name="param" description="" type="string" variable="$pub_key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="58" name="param" description="" type="string" variable="$prv_key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="58" name="return" description="true if success, false if failure" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="65">
+          <name>$user</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="65">
+          <name>$pub_key</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="65">
+          <name>$prv_key</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="81" package="scrissh">
+        <name>exec</name>
+        <full_name>exec</full_name>
+        <docblock line="76">
+          <description><![CDATA[Executes a command on the remote host]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="76" name="param" description="the command to execute" type="string" variable="$cmd">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="76" name="return" description="the command result or dies if no connection" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="81">
+          <name>$cmd</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="98" package="scrissh">
+        <name>disconnect</name>
+        <full_name>disconnect</full_name>
+        <docblock line="95">
+          <description><![CDATA[Disconnects from the host]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="106" package="scrissh">
+        <name>__destruct</name>
+        <full_name>__destruct</full_name>
+        <docblock line="103">
+          <description><![CDATA[Destructor]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="115" package="scrissh">
+        <name>getHost</name>
+        <full_name>getHost</full_name>
+        <docblock line="110">
+          <description><![CDATA[Returns the host]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="110" name="return" description="the host" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="124" package="scrissh">
+        <name>getPort</name>
+        <full_name>getPort</full_name>
+        <docblock line="119">
+          <description><![CDATA[Returns the port]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="119" name="return" description="the port" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="lib/common.php" hash="64ecfae4d074bc66714a727628dcfee8" package="scrissh">
+    <docblock line="2">
+      <description><![CDATA[Common functions]]></description>
+      <long-description><![CDATA[]]></long-description>
+      <tag line="2" name="package" description="scrissh"/>
+    </docblock>
+    <include line="24" type="Require Once" package="Default">
+      <name>SSH2.php</name>
+    </include>
+    <include line="33" type="Require Once" package="Default">
+      <name>Crypt/RSA.php</name>
+    </include>
+    <include line="34" type="Require Once" package="Default">
+      <name>Net/SSH2.php</name>
+    </include>
+    <function namespace="global" line="50" package="scrissh">
+      <name>usage</name>
+      <full_name>\usage</full_name>
+      <docblock line="47">
+        <description><![CDATA[Displays usage and exits]]></description>
+        <long-description><![CDATA[]]></long-description>
+      </docblock>
+    </function>
+    <class final="false" abstract="false" namespace="global" line="10" package="scrissh">
+      <extends/>
+      <name>Shell</name>
+      <full_name>\Shell</full_name>
+      <docblock line="6">
+        <description><![CDATA[A simple shell interface]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="6" name="package" description="scrissh"/>
+      </docblock>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="22" package="scrissh">
+        <name>connect</name>
+        <full_name>connect</full_name>
+        <docblock line="12">
+          <description><![CDATA[Connects to a SSH server using PHP native SSH2 interface if available
+or phpseclib as a fallback]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="12" name="param" description="" type="string" variable="$host">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="12" name="param" description="" type="int" variable="$port">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="12" name="param" description="" type="string" variable="$user">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="12" name="param" description="" type="string" variable="$pub_key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="12" name="param" description="" type="string" variable="$prv_key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="12" name="return" description="SSH2 object or phpseclib Net_SSH2 object or false" type="\SSH2|\Net_SSH2|bool">
+            <type by_reference="false">\SSH2</type>
+            <type by_reference="false">\Net_SSH2</type>
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="22">
+          <name>$host</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="22">
+          <name>$port</name>
+          <default><![CDATA[22]]></default>
+          <type/>
+        </argument>
+        <argument line="22">
+          <name>$user</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="22">
+          <name>$pub_key</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="22">
+          <name>$prv_key</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="scrissh" full_name="scrissh"/>
+  <namespace name="global" full_name="global"/>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>
