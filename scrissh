@@ -1,8 +1,18 @@
 #!/usr/bin/php
 <?php
+/**
+ * scrissh: execute remote commands in batch with SSH2
+ * @package scrissh
+ */
+/**
+ * Script root directory
+ */
 define('SCRISSH_ROOT', getcwd());
-require_once(SCRISSH_ROOT . '/lib/bootstrap.inc');
 
+// Load bootstrap file
+require_once(SCRISSH_ROOT . '/lib/bootstrap.php');
+
+// Execute commands loaded from configuration file(s)
 foreach($config['Servers'] as $key => $value) {
   echo "\n\033[1;36mEntering $key:\033[0;37m\n";
   $server = $config['Servers'][$key];

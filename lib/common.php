@@ -1,7 +1,24 @@
 <?php
-
+/**
+ * Common functions
+ * @package scrissh
+ */
+/**
+ * A simple shell interface
+ * @package scrissh
+ */
 class Shell {
 
+  /**
+   * Connects to a SSH server using PHP native SSH2 interface if available
+   * or phpseclib as a fallback
+   * @param string $host
+   * @param int $port
+   * @param string $user
+   * @param string $pub_key
+   * @param string $prv_key
+   * @return SSH2|Net_SSH2|bool SSH2 object or phpseclib Net_SSH2 object or false
+   */
   public static function connect($host, $port = 22, $user, $pub_key, $prv_key) {
     if(function_exists('ssh2_connect')) {
       require_once('SSH2.php');
@@ -27,6 +44,9 @@ class Shell {
   }
 }
 
+/**
+ * Displays usage and exits
+ */
 function usage() {
   echo("Usage: drums config.yml\nwhere config.yml is your config file.\n");
   exit();

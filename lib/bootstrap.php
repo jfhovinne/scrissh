@@ -1,12 +1,15 @@
 <?php
-//error_reporting(0);
-
+/**
+ * Load dependencies and common functions
+ * Display usage if required parameters are missing
+ * Parse configuration file(s)
+ * @package scrissh
+ */
 use Symfony\Component\Yaml\Parser;
-
 set_include_path(get_include_path() . PATH_SEPARATOR . SCRISSH_ROOT . '/lib');
 set_include_path(get_include_path() . PATH_SEPARATOR . SCRISSH_ROOT . '/vendor/phpseclib');
 
-require_once('common.inc');
+require_once('common.php');
 
 if($argc == 1) usage();
 
