@@ -52,20 +52,20 @@ Configuration sections
 ----------------------
 
 * SSH: configures the SSH connection
-** keys: defines the SSH key paths
-*** private-key: the path to the private key (see important note below)
-*** public-key: the path to the public key
+  keys: defines the SSH key paths
+    private-key: the path to the private key (see important note below)
+    public-key: the path to the public key
 * Servers: a list of hosts to connect to
-** [server name]: the (random) name of the host to connect to
-*** host: the hostname of the host
-*** port: the port used by the connection
-*** user: the remote user name
-*** commands: a list of commands to execute
+  [server name]: the (random) name of the host to connect to
+    host: the hostname of the host
+    port: the port used by the connection
+    user: the remote user name
+    commands: a list of commands to execute
 
 Note: due to PHP SSH2 native implementation limitations, the private key
 must be decrypted, using the following command (replace foo by your username):
 
 `openssl rsa -in /home/foo/.ssh/id_rsa -out /home/foo/.ssh/id_rsa.prv && chmod 400 /home/foo/.ssh/id_rsa.prv`
 
-As this could be a severe security issue, there's a fallback to phpseclib
+As this could be a severe security issue, there's a fallback (untested) to phpseclib
 in case PHP libssh2 bindings aren't available.
