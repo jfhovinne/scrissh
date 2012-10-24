@@ -10,10 +10,10 @@ on remote shells using SSH2 and YAML configuration files.
 Requirements
 ------------
 
-# PHP cli, see http://php.net/manual/en/features.commandline.php
-# PHP libssh2 bindings must be installed on the client host.
+* PHP cli, see http://php.net/manual/en/features.commandline.php
+* PHP libssh2 bindings must be installed on the client host.
 See http://www.php.net/manual/en/book.ssh2.php for more information.
-# A SSH server must be running and listening on the remote host (seems obvious).
+* A SSH server must be running and listening on the remote host (seems obvious).
 
 In case libssh2 isn't available, a fallback using phpseclib is provided
 (untested, any feedback appreciated).
@@ -65,11 +65,7 @@ Configuration sections
 Note: due to PHP SSH2 native implementation limitations, the private key
 must be decrypted, using the following command (replace foo by your username):
 
-`openssl rsa -in /home/foo/.ssh/id_rsa -out /home/foo/.ssh/id_rsa.prv`
-
-It could be a good idea then to execute the following:
-
-`chmod 400 /home/foo/.ssh/id_rsa.prv`
+`openssl rsa -in /home/foo/.ssh/id_rsa -out /home/foo/.ssh/id_rsa.prv && chmod 400 /home/foo/.ssh/id_rsa.prv`
 
 As this could be a severe security issue, there's a fallback to phpseclib
 in case PHP libssh2 bindings aren't available.
