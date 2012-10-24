@@ -56,7 +56,7 @@ Configuration sections
         private-key: the path to the private key (see important note below)
         public-key: the path to the public key
     Servers: a list of hosts to connect to
-      [server name]: the (random) name of the host to connect to
+      [server name]: the name of the host to connect to (can be random)
         host: the hostname of the host
         port: the port used by the connection
         user: the remote user name
