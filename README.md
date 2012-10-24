@@ -69,3 +69,10 @@ must be decrypted, using the following command (replace foo by your username):
 
 As this could be a severe security issue, there's a fallback (untested) to phpseclib
 in case PHP libssh2 bindings aren't available.
+
+TODO
+----
+
+* Add options, e.g. force usage of phpseclib
+* Test phpseclib fallback
+* Add global configuration and use HOME
