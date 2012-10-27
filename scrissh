@@ -18,8 +18,9 @@ foreach($config['Servers'] as $key => $server) {
   echo "\n\033[1;36mEntering $key:\033[0m\n";
   $ssh = Shell::connect($server['host'], $server['port'], $server['user'], $keys['public-key'], $keys['private-key']);
   if($ssh) {
-    foreach($server['commands'] as $key => $value) {
-      echo($ssh->exec($value));
+    foreach($server['commands'] as $key => $command) {
+      $result = $ssh->exec($command);
+      echo("\n\033[1;35m{$command}\033[0m\n{$result}");
     }
   } else {
     echo("ERROR: Could not connect to server\n");
