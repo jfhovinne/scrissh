@@ -14,7 +14,7 @@ require_once(SCRISSH_ROOT . '/lib/bootstrap.php');
 
 // Execute commands loaded from configuration file(s)
 foreach($config['Servers'] as $key => $value) {
-  echo "\n\033[1;36mEntering $key:\033[0;37m\n";
+  echo "\n\033[1;36mEntering $key:\033[0m\n";
   $server = $config['Servers'][$key];
   $keys = $config['SSH']['keys'];
   $ssh = Shell::connect($server['host'], $server['port'], $server['user'], $keys['public-key'], $keys['private-key']);
