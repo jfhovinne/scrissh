@@ -13,14 +13,32 @@ define('SCRISSH_ROOT', getcwd());
 require_once(SCRISSH_ROOT . '/lib/bootstrap.php');
 
 // Execute commands loaded from configuration file(s)
-foreach($config['Servers'] as $key => $value) {
-  echo "\n\033[1;36mEntering $key:\033[0;37m\n";
-  $server = $config['Servers'][$key];
-  $keys = $config['SSH']['keys'];
+$keys = $config['SSH']['keys'];
+foreach($config['Servers'] as $key => $server) {
+  echo "\n\033[1;36mEntering $key:\033[0m\n";
   $ssh = Shell::connect($server['host'], $server['port'], $server['user'], $keys['public-key'], $keys['private-key']);
   if($ssh) {
-    foreach($server['commands'] as $key => $value) {
-      echo($ssh->exec($server['commands'][$key]));
+    foreach($server['commands'] as $key => $command) {
+      if(is_array($command)) {
+        $remote_cmd = array_key_exists('remote', $command) ? $command['remote'] : null;
+        $local_cmd = array_key_exists('local', $command) ? $command['local'] : null;
+      } else {
+        $remote_cmd = $command;
+        $local_cmd = null;
+      }
+      if($remote_cmd) {
+        $remote_result = $ssh->exec($remote_cmd);
+        echo("\n\033[1;35m>> {$remote_cmd}\033[0m\n{$remote_result}");
+      } else {
+        $remote_result = null;
+      }
+      if($local_cmd) {
+        $local_cmd = str_replace('$0', $remote_result, $local_cmd);
+        $local_result = shell_exec($local_cmd . ' 2>&1');
+        echo("\n\033[1;35m<< {$local_cmd}\033[0m\n{$local_result}");
+      } else {
+        $local_result = null;
+      }
     }
   } else {
     echo("ERROR: Could not connect to server\n");
