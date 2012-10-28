@@ -19,8 +19,26 @@ foreach($config['Servers'] as $key => $server) {
   $ssh = Shell::connect($server['host'], $server['port'], $server['user'], $keys['public-key'], $keys['private-key']);
   if($ssh) {
     foreach($server['commands'] as $key => $command) {
-      $result = $ssh->exec($command);
-      echo("\n\033[1;35m{$command}\033[0m\n{$result}");
+      if(is_array($command)) {
+        $remote_cmd = array_key_exists('remote', $command) ? $command['remote'] : null;
+        $local_cmd = array_key_exists('local', $command) ? $command['local'] : null;
+      } else {
+        $remote_cmd = $command;
+        $local_cmd = null;
+      }
+      if($remote_cmd) {
+        $remote_result = $ssh->exec($remote_cmd);
+        echo("\n\033[1;35m>> {$remote_cmd}\033[0m\n{$remote_result}");
+      } else {
+        $remote_result = null;
+      }
+      if($local_cmd) {
+        $local_cmd = str_replace('$0', $remote_result, $local_cmd);
+        $local_result = shell_exec($local_cmd . ' 2>&1');
+        echo("\n\033[1;35m<< {$local_cmd}\033[0m\n{$local_result}");
+      } else {
+        $local_result = null;
+      }
     }
   } else {
     echo("ERROR: Could not connect to server\n");
